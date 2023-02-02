@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.BlogOperationsDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.BlogIntroduction">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="title" jdbcType="VARCHAR" property="title"></result>
+        <result column="digest" jdbcType="VARCHAR" property="digest"></result>
+        <result column="picture" jdbcType="VARCHAR" property="picture"></result>
+        <result column="viewed_num" jdbcType="INTEGER" property="viewedNum"></result>
+        <result column="thumb_num" jdbcType="INTEGER" property="thumbNum"></result>
+        <result column="comment_num" jdbcType="INTEGER" property="commentNum"></result>
+        <result column="icon" jdbcType="VARCHAR" property="icon"></result>
+        <result column="type" jdbcType="INTEGER" property="type"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type
+    </sql>
+
+    <update id="giveALike" parameterType="java.lang.Integer">
+        update myblog.blog_introduction
+        set thumb_num = thumb_num + 1
+        where id = #{blogId}
+    </update>
+
+    <update id="viewNumAdd" parameterType="java.lang.Integer">
+        update myblog.blog_introduction
+        set viewed_num = viewed_num + 1
+        where id = #{blogId}
+    </update>
+
+</mapper>

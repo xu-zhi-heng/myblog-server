@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.BlogContentDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.BlogContent">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="content" jdbcType="VARCHAR" property="content"></result>
+        <result column="categories" jdbcType="VARCHAR" property="categories"></result>
+        <result column="tags" jdbcType="VARCHAR" property="tags"></result>
+        <result column="create_time" jdbcType="DATE" property="create_time"></result>
+        <result column="title" jdbcType="VARCHAR" property="title"></result>
+        <result column="blogIntroduction_id" jdbcType="INTEGER" property="blogIntroductionId"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,content,categories,tags,create_time,title,blogIntroduction_id
+    </sql>
+
+    <select id="findByBlogIntroductionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_content
+        where blogIntroduction_id = #{blogIntroductionId}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_content
+    </select>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.ExerciseDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.Exercise">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="number" jdbcType="INTEGER" property="number"></result>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="content" jdbcType="VARCHAR" property="content"></result>
+        <result column="answer" jdbcType="VARCHAR" property="answer"></result>
+        <result column="train" jdbcType="VARCHAR" property="train"></result>
+        <result column="time" jdbcType="TIMESTAMP" property="time"></result>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"></result>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"></result>
+        <result column="exercise_type" jdbcType="INTEGER" property="exerciseType"></result>
+        <result column="label" jdbcType="VARCHAR" property="label"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,number,name,content,answer,train,time,create_time,update_time,exercise_type,label
+    </sql>
+
+    <select id="getAllExercises" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        from myblog.exercise limit #{page}, #{pageSize}
+    </select>
+
+    <select id="filter" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        from myblog.exercise where 1 = 1
+        <choose>
+            <when test="exerciseType != null">
+                and exercise_type = #{exerciseType}
+            </when>
+            <when test="label != null">
+                and label in
+                <foreach item="item" index="index" open="(" separator="," close=")" collection="label">
+                    #{item}
+                </foreach>
+            </when>
+            <when test="startTime != null and endTime != null">
+                and
+                create_time between #{startTime} and #{endTime}
+            </when>
+        </choose>
+    </select>
+
+    <select id="findByNumber" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        from myblog.exercise where number = #{number}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from myblog.exercise
+    </select>
+
+    <select id="findLabelName" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select myblog.exercise_label.name from myblog.exercise_label
+        where 1 = 1
+        <if test="list != null">
+            and myblog.exercise_label.id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                <if test="item != null">
+                    #{item}
+                </if>
+            </foreach>
+        </if>
+    </select>
+</mapper>

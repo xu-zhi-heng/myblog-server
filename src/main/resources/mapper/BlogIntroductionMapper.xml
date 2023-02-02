@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.BlogIntroductionDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.BlogIntroduction">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="title" jdbcType="VARCHAR" property="title"></result>
+        <result column="digest" jdbcType="VARCHAR" property="digest"></result>
+        <result column="picture" jdbcType="VARCHAR" property="picture"></result>
+        <result column="viewed_num" jdbcType="INTEGER" property="viewedNum"></result>
+        <result column="thumb_num" jdbcType="INTEGER" property="thumbNum"></result>
+        <result column="comment_num" jdbcType="INTEGER" property="commentNum"></result>
+        <result column="icon" jdbcType="VARCHAR" property="icon"></result>
+        <result column="type" jdbcType="INTEGER" property="type"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type
+    </sql>
+
+    <select id="findByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_introduction
+        where type = #{type}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_introduction
+        where id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_introduction
+    </select>
+</mapper>

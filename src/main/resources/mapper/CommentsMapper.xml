@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.CommentsDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.Comments">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="comment_content" jdbcType="VARCHAR" property="commentContent"></result>
+        <result column="user_id" jdbcType="INTEGER" property="userId"></result>
+        <result column="blogIntroduction_id" jdbcType="INTEGER" property="blogIntroductionId"></result>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"></result>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"></result>
+        <result column="support_num" jdbcType="INTEGER" property="supportNum"></result>
+        <result column="against_num" jdbcType="INTEGER" property="againstNum"></result>
+    </resultMap>
+
+    <resultMap id="UserCommentsMap" type="com.sweetfun.domain.vo.CommentsVo">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="comment_content" jdbcType="VARCHAR" property="commentContent"></result>
+        <result column="user_id" jdbcType="INTEGER" property="userId"></result>
+        <result column="blogIntroduction_id" jdbcType="INTEGER" property="blogIntroductionId"></result>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"></result>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"></result>
+        <result column="support_num" jdbcType="INTEGER" property="supportNum"></result>
+        <result column="against_num" jdbcType="INTEGER" property="againstNum"></result>
+        <result column="username" jdbcType="VARCHAR" property="userName"></result>
+        <result column="avator" jdbcType="VARCHAR" property="userAvator"></result>
+        <result column="username" jdbcType="VARCHAR" property="username"></result>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        select id,comment_content,user_id,blogIntroduction_id,create_time,update_time,support_num,against_num
+    </sql>
+
+    <select id="findByBlogIntroductionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        <include refid="Base_Column_List"/>
+        from myblog.comments
+        where blogIntroduction_id = #{blogIntroductionId}
+    </select>
+
+    <select id="findUserComments" parameterType="java.lang.Integer" resultMap="UserCommentsMap">
+        SELECT c.id,c.user_id,c.blogIntroduction_id,c.comment_content,c.create_time,c.update_time,c.support_num,c.against_num,
+        u.username,u.avator,u.username
+        FROM myblog.comments AS c
+        INNER JOIN myblog.USER u ON c.`user_id` = u.id WHERE c.`blogIntroduction_id` = #{blogIntroductionId};
+    </select>
+
+    <insert id="saveUserComments" parameterType="com.sweetfun.domain.Comments">
+        insert into myblog.comments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            comment_content,
+            user_id,
+            blogIntroduction_id,
+            create_time,
+            update_time,
+            support_num,
+            against_num
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{commentContent},
+            #{userId},
+            #{blogIntroductionId},
+            now(),
+            now(),
+            0,
+            0
+        </trim>
+    </insert>
+
+    <delete id="deleteComment" parameterType="java.lang.Integer">
+        delete from myblog.comments
+        where id = #{id}
+    </delete>
+</mapper>
