@@ -66,4 +66,5 @@
         <include refid="Base_Column_List"/>
         from myblog.blog_type
     </select>
+
 </mapper>

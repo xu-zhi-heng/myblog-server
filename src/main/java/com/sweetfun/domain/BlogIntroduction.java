@@ -1,6 +1,14 @@
 package com.sweetfun.domain;
 
 public class BlogIntroduction {
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
     private Integer id;
     private String title;
     private String digest;
@@ -10,6 +18,7 @@ public class BlogIntroduction {
     private Integer commentNum;
     private String icon;
     private Integer type;
+    private Integer role;
 
     public Integer getId() {
         return id;
@@ -95,6 +104,7 @@ public class BlogIntroduction {
                 ", commentNum=" + commentNum +
                 ", icon='" + icon + '\'' +
                 ", type=" + type +
+                ", role=" + role +
                 '}';
     }
 }

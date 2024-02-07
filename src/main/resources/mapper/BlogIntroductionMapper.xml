@@ -13,10 +13,11 @@
         <result column="comment_num" jdbcType="INTEGER" property="commentNum"></result>
         <result column="icon" jdbcType="VARCHAR" property="icon"></result>
         <result column="type" jdbcType="INTEGER" property="type"></result>
+        <result column="role" jdbcType="INTEGER" property="role"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type
+        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type, role
     </sql>
 
     <select id="findByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">

@@ -7,14 +7,15 @@
         <id column="id" jdbcType="INTEGER" property="userId"></id>
         <result column="username" jdbcType="VARCHAR" property="username"></result>
         <result column="password" jdbcType="VARCHAR" property="password"></result>
-        <result column="avator" jdbcType="VARCHAR" property="avator"></result>
-        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"></result>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"></result>
+        <result column="birthday" jdbcType="DATE" property="birthday"></result>
         <result column="location" jdbcType="VARCHAR" property="location"></result>
         <result column="sex" jdbcType="VARCHAR" property="sex"></result>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"></result>
+        <result column="role" jdbcType="INTEGER" property="role"></result>
     </resultMap>
     <sql id="Base_Column_List">
-        select id,username,password,avator,birthday,location,sex,introduce
+        select id,username,password,avator,birthday,location,sex,introduce, role
     </sql>
 
     <insert id="Register" parameterType="com.sweetfun.domain.User">
@@ -26,8 +27,8 @@
             <if test="password != null">
                 password,
             </if>
-            <if test="avator != null">
-                avator,
+            <if test="avatar != null">
+                avatar,
             </if>
             <if test="birthday != null">
                 birthday,
@@ -41,6 +42,9 @@
             <if test="introduce != null">
                 introduce,
             </if>
+            <if test="role != null">
+                role,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="username != null">
@@ -49,8 +53,8 @@
             <if test="password != null">
                 #{password},
             </if>
-            <if test="avator != null">
-                #{avator},
+            <if test="avatar != null">
+                #{avatar},
             </if>
             <if test="birthday != null">
                 #{birthday},
@@ -63,6 +67,9 @@
             </if>
             <if test="introduce != null">
                 #{introduce},
+            </if>
+            <if test="role != null">
+                #{role},
             </if>
         </trim>
     </insert>

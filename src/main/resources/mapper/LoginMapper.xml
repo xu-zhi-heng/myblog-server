@@ -7,15 +7,15 @@
         <id column="id" jdbcType="INTEGER" property="userId"></id>
         <result column="username" jdbcType="VARCHAR" property="username"></result>
         <result column="password" jdbcType="VARCHAR" property="password"></result>
-        <result column="avator" jdbcType="VARCHAR" property="avator"></result>
-        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"></result>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"></result>
+        <result column="birthday" jdbcType="DATE" property="birthday"></result>
         <result column="location" jdbcType="VARCHAR" property="location"></result>
         <result column="sex" jdbcType="VARCHAR" property="sex"></result>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,username,password,avator,birthday,location,sex,introduce
+        select id,username,password,avatar,birthday,location,sex,introduce
     </sql>
 
     <select id="Login" resultMap="BaseResultMap">
