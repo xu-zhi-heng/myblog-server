@@ -20,6 +20,7 @@ public class CommentsVo {
     private String userName;
     private String userAvator;
     private String username;
+    private Integer status;
 
     @Override
     public String toString() {
@@ -35,6 +36,7 @@ public class CommentsVo {
                 ", userName='" + userName + '\'' +
                 ", userAvator='" + userAvator + '\'' +
                 ", username='" + username + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

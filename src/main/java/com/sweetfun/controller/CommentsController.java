@@ -1,10 +1,11 @@
 package com.sweetfun.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sweetfun.domain.BlogType;
+import com.github.houbb.sensitive.word.core.SensitiveWordHelper;
 import com.sweetfun.domain.Comments;
 import com.sweetfun.domain.vo.CommentsVo;
 import com.sweetfun.service.CommentsService;
+import com.sweetfun.utils.BackResult;
 import com.sweetfun.utils.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -60,13 +61,20 @@ public class CommentsController {
 
     @RequestMapping(value = "/saveUserComments", method = RequestMethod.POST)
     public Object saveUserComments(@RequestBody Comments comments) {
-        System.out.println(comments);
+        boolean contains = SensitiveWordHelper.contains(comments.getCommentContent());
         JSONObject jsonObject = new JSONObject();
         try {
-            int i = commentsService.saveUserComments(comments);
-            if(i > 0) {
-                jsonObject.put(Consts.CODE, 1);
-                jsonObject.put(Consts.MSG, "评论成功");
+            if (contains) {
+                comments.setStatus(0);
+                commentsService.saveUserComments(comments);
+                jsonObject.put(Consts.CODE, 0);
+                jsonObject.put(Consts.MSG, "您的评论包含敏感信息，等带后台进行审核");
+            } else {
+                int i = commentsService.saveUserComments(comments);
+                if(i > 0) {
+                    jsonObject.put(Consts.CODE, 1);
+                    jsonObject.put(Consts.MSG, "评论成功");
+                }
             }
         } catch (Exception e) {
             jsonObject.put(Consts.CODE, 0);
@@ -92,4 +100,47 @@ public class CommentsController {
         }
         return jsonObject;
     }
+
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public Object findAll() {
+        try {
+            List<Object> objects = commentsService.findAll();
+            System.out.println(objects);
+            if (objects.size() != 0) {
+                return BackResult.result(1, "查询成功", objects);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
+    @RequestMapping(value = "/updateById", method = RequestMethod.PUT)
+    public Object updateById(@RequestBody Comments comments) {
+        try {
+            int i = commentsService.updateById(comments);
+            if (i != 0) {
+                return BackResult.result(1, "更新成功", null);
+            } else {
+                return BackResult.result(0, "更新失败", null);
+            }
+        } catch (Exception exception) {
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+    @RequestMapping(value = "/findByTime", method = RequestMethod.GET)
+    public Object findByTime(@RequestParam("date") String[] dates) {
+        try {
+            List<Object> byTime = commentsService.findByTime(dates[0], dates[1]);
+            if (byTime != null) {
+                return BackResult.result(1, "查询成功", byTime);
+            } else {
+                return BackResult.result(0, "查询失败", null);
+            }
+        } catch (Exception exception) {
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
 }

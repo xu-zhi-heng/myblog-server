@@ -12,4 +12,5 @@ public interface UserDao {
     public boolean deleteById(int userId);
     public int totalUserNumber();
     public boolean updateUser(User user);
+    public boolean addUser(User user);
 }

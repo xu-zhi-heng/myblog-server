@@ -14,10 +14,12 @@
         <result column="icon" jdbcType="VARCHAR" property="icon"></result>
         <result column="type" jdbcType="INTEGER" property="type"></result>
         <result column="role" jdbcType="INTEGER" property="role"></result>
+        <result column="status" jdbcType="INTEGER" property="status"></result>
+        <result column="user_id" jdbcType="INTEGER" property="userId"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type, role
+        select id,title,digest,picture,viewed_num,thumb_num,comment_num,icon,type, role, status, user_id
     </sql>
 
     <select id="findByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -26,14 +28,153 @@
         where type = #{type}
     </select>
 
+    <select id="findByKeyWord" resultMap="BaseResultMap" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        from myblog.blog_introduction
+        where title like CONCAT('%',#{keyWord},'%') or digest like CONCAT('%',#{keyWord},'%')
+    </select>
+
     <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         <include refid="Base_Column_List"/>
         from myblog.blog_introduction
         where id = #{id}
     </select>
 
-    <select id="findAll" resultMap="BaseResultMap">
+    <select id="findAll" resultType="java.util.HashMap">
+        SELECT myblog.blog_introduction.id,
+        myblog.blog_introduction.title,
+        digest,
+        picture,
+        viewed_num AS viewedNum,
+        thumb_num AS thumbNum,
+        comment_num AS commentNum,icon,type, myblog.blog_introduction.role, status, myblog.blog_content.create_time,
+        myblog.user.username
+        FROM myblog.blog_introduction
+        LEFT JOIN myblog.blog_content
+        ON myblog.blog_introduction.id = myblog.blog_content.blogIntroduction_id
+        LEFT JOIN myblog.user
+        ON myblog.user.id = myblog.blog_introduction.user_id;
+    </select>
+
+    <select id="findAllByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         <include refid="Base_Column_List"/>
         from myblog.blog_introduction
+        where user_id = #{userId}
     </select>
+
+
+    <insert id="saveBlogIntro" parameterType="com.sweetfun.domain.BlogIntroduction"
+            useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into myblog.blog_introduction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="digest != null">
+                digest,
+            </if>
+            <if test="picture != null">
+                picture,
+            </if>
+            <if test="viewedNum != null">
+                viewedNum,
+            </if>
+            <if test="thumbNum != null">
+                thumbNum,
+            </if>
+            <if test="commentNum != null">
+                commentNum,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="digest != null">
+                #{digest},
+            </if>
+            <if test="picture != null">
+                #{picture},
+            </if>
+            <if test="viewedNum != null">
+                #{viewedNum},
+            </if>
+            <if test="thumbNum != null">
+                #{thumbNum},
+            </if>
+            <if test="commentNum != null">
+                #{commentNum},
+            </if>
+            <if test="icon != null">
+                #{icon},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="role != null">
+                #{role},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sweetfun.domain.BlogIntroduction">
+        update myblog.blog_introduction
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="digest != null">
+                digest = #{digest},
+            </if>
+            <if test="picture != null">
+                picture = #{picture},
+            </if>
+            <if test="viewedNum != null">
+                viewedNum = #{viewedNum},
+            </if>
+            <if test="thumbNum != null">
+                thumbNum = #{thumbNum},
+            </if>
+            <if test="commentNum != null">
+                commentNum = #{commentNum},
+            </if>
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="role != null">
+                role = #{role},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

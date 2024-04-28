@@ -4,9 +4,13 @@ import com.sweetfun.domain.User;
 import com.sweetfun.service.UserService;
 import com.sweetfun.utils.BackResult;
 import com.sweetfun.utils.Consts;
+import com.sweetfun.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.sweetfun.utils.UniqueKeyGenerator;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -86,6 +90,7 @@ public class UserController {
     @RequestMapping("/updateUser")
     public Object updateUser(@RequestBody User user) {
         Object result = null;
+        user.setPassword(MD5Utils.convertMD5(user.getPassword()));
         try {
             boolean flag = userService.updateUser(user);
             if (flag) {
@@ -100,9 +105,36 @@ public class UserController {
     }
 
     @RequestMapping("/addUser")
-    @ResponseBody
-    public Object addUser(@RequestParam(value = "avatar") MultipartFile avatar) {
-        System.out.println(avatar);
-        return null;
+    public Object addUser(@RequestBody User user) {
+        try {
+            user.setAvatar("https://cdnp3.stackassets.com/fa6fd1e226152eba86fa65cef159cde3d5a40517/store/fd9cf709c1417e2cabff70f3d3d2b3be06d0becd1df0cccfc661d327a3a7/sale_229497_primary_image.jpg");
+            user.setUserKey(UniqueKeyGenerator.generateUniqueKey());
+            user.setPassword(MD5Utils.convertMD5(user.getPassword()));
+            boolean flag = userService.addUser(user);
+            if (flag) {
+                return BackResult.result(1, "添加成功", null);
+            } else {
+                return BackResult.result(0, "添加失败", null);
+            }
+        } catch (Exception e) {
+            return BackResult.result(0, e.getMessage(), null);
+        }
     }
+
+    @RequestMapping("/uploadImg")
+    public Object handleFileUpload(@RequestParam("avatar") MultipartFile file, @RequestParam("userId") Integer userId) {
+        String fileName = file.getOriginalFilename();
+        try {
+            file.transferTo( new File(new File("src\\main\\resources\\static").getAbsolutePath()+ "/" + fileName));
+        } catch (Exception e) {
+           return BackResult.result(0, e.getMessage(), null);
+        }
+        String path = "http://localhost:8888/static/" + fileName;
+        User user = new User();
+        user.setUserId(userId);
+        user.setAvatar(path);
+        userService.updateUser(user);
+        return BackResult.result(1, "更新成功", path);
+    }
+
 }

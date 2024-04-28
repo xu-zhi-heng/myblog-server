@@ -11,6 +11,15 @@ public class Comments implements Serializable {
     private Timestamp updateTime;
     private Integer supportNum;
     private Integer againstNum;
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Comments() {
     }
@@ -79,7 +88,7 @@ public class Comments implements Serializable {
         this.againstNum = againstNum;
     }
 
-    public Comments(Integer id, String commentContent, Integer userId, Integer blogIntroductionId, Timestamp createTime, Timestamp updateTime, Integer supportNum, Integer againstNum) {
+    public Comments(Integer id, String commentContent, Integer userId, Integer blogIntroductionId, Timestamp createTime, Timestamp updateTime, Integer supportNum, Integer againstNum, Integer status) {
         this.id = id;
         this.commentContent = commentContent;
         this.userId = userId;
@@ -88,6 +97,7 @@ public class Comments implements Serializable {
         this.updateTime = updateTime;
         this.supportNum = supportNum;
         this.againstNum = againstNum;
+        this.status = status;
     }
 
     @Override
@@ -101,6 +111,7 @@ public class Comments implements Serializable {
                 ", updateTime=" + updateTime +
                 ", supportNum=" + supportNum +
                 ", againstNum=" + againstNum +
+                ", status=" + status +
                 '}';
     }
 }

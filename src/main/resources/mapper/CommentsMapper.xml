@@ -12,6 +12,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"></result>
         <result column="support_num" jdbcType="INTEGER" property="supportNum"></result>
         <result column="against_num" jdbcType="INTEGER" property="againstNum"></result>
+        <result column="status" jdbcType="INTEGER" property="status"></result>
     </resultMap>
 
     <resultMap id="UserCommentsMap" type="com.sweetfun.domain.vo.CommentsVo">
@@ -24,13 +25,14 @@
         <result column="support_num" jdbcType="INTEGER" property="supportNum"></result>
         <result column="against_num" jdbcType="INTEGER" property="againstNum"></result>
         <result column="username" jdbcType="VARCHAR" property="userName"></result>
-        <result column="avator" jdbcType="VARCHAR" property="userAvator"></result>
+        <result column="avatar" jdbcType="VARCHAR" property="userAvator"></result>
         <result column="username" jdbcType="VARCHAR" property="username"></result>
+        <result column="status" jdbcType="INTEGER" property="status"></result>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        select id,comment_content,user_id,blogIntroduction_id,create_time,update_time,support_num,against_num
+        select id,comment_content,user_id,blogIntroduction_id,create_time,update_time,support_num,against_num,status
     </sql>
 
     <select id="findByBlogIntroductionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -40,10 +42,10 @@
     </select>
 
     <select id="findUserComments" parameterType="java.lang.Integer" resultMap="UserCommentsMap">
-        SELECT c.id,c.user_id,c.blogIntroduction_id,c.comment_content,c.create_time,c.update_time,c.support_num,c.against_num,
-        u.username,u.avator,u.username
+        SELECT c.id,c.user_id,c.blogIntroduction_id,c.comment_content,c.create_time,c.update_time,c.support_num,c.against_num,c.status,
+        u.username,u.avatar
         FROM myblog.comments AS c
-        INNER JOIN myblog.USER u ON c.`user_id` = u.id WHERE c.`blogIntroduction_id` = #{blogIntroductionId};
+        INNER JOIN myblog.USER AS u ON c.`user_id` = u.id WHERE c.`blogIntroduction_id` = #{blogIntroductionId};
     </select>
 
     <insert id="saveUserComments" parameterType="com.sweetfun.domain.Comments">
@@ -55,7 +57,8 @@
             create_time,
             update_time,
             support_num,
-            against_num
+            against_num,
+            status
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{commentContent},
@@ -64,7 +67,8 @@
             now(),
             now(),
             0,
-            0
+            0,
+            #{status}
         </trim>
     </insert>
 
@@ -72,4 +76,55 @@
         delete from myblog.comments
         where id = #{id}
     </delete>
+
+    <select id="findAll" resultType="java.util.HashMap">
+        SELECT c.id,c.user_id,c.blogIntroduction_id,c.comment_content,c.create_time,c.update_time,c.support_num,c.against_num,c.status,
+        u.username,u.avatar,
+        b.title
+        FROM myblog.comments AS c
+        INNER JOIN myblog.USER u ON c.`user_id` = u.id
+        LEFT JOIN myblog.blog_introduction AS b ON b.id = c.blogIntroduction_id;
+    </select>
+
+
+    <update id="updateById" parameterType="com.sweetfun.domain.Comments">
+        update comments
+        <set>
+            <if test="commentContent != null">
+                comment_content = #{commentContent},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="blogIntroductionId != null">
+                blogIntroduction_id = #{blogIntroductionId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="supportNum != null">
+                support_num = #{supportNum},
+            </if>
+            <if test="againstNum != null">
+                against_num = #{againstNum},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findByTime" resultType="java.util.HashMap" parameterType="java.lang.String">
+        SELECT c.id,c.user_id,c.blogIntroduction_id,c.comment_content,c.create_time,c.update_time,c.support_num,c.against_num,c.status,
+        u.username,u.avatar,
+        b.title
+        FROM myblog.comments AS c
+        INNER JOIN myblog.USER u ON c.`user_id` = u.id
+        LEFT JOIN myblog.blog_introduction AS b ON b.id = c.blogIntroduction_id
+        where c.create_time BETWEEN #{createTime} and #{endTime}
+    </select>
 </mapper>

@@ -14,4 +14,8 @@ public interface CommentsService {
     public int saveUserComments(Comments comments);
     // 删除评论内容
     public int deleteComment(Integer userId);
+    // 获取所有评论内容
+    public List<Object> findAll();
+    public int updateById(Comments comments);
+    public List<Object> findByTime(String createTime, String endTime);
 }

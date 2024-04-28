@@ -13,10 +13,11 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"></result>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"></result>
         <result column="role" jdbcType="INTEGER" property="role"></result>
+        <result column="userKey" jdbcType="INTEGER" property="userKey"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,username,password,avatar,birthday,location,sex,introduce,role
+        select id,username,password,avatar,birthday,location,sex,introduce,role,userKey
     </sql>
 
     <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -33,9 +34,71 @@
         delete from myblog.user where id = #{userId}
     </delete>
 
-    <select id="totalUserNumber" parameterType="java.lang.Integer">
+    <select id="totalUserNumber" resultType="java.lang.Integer">
         select count(*) from myblog.user
     </select>
+
+    <insert id="addUser" parameterType="com.sweetfun.domain.User">
+        insert into myblog.user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="introduce != null">
+                introduce,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="userKey != null">
+                userKey,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="avatar != null">
+                #{avatar},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="introduce != null">
+                #{introduce},
+            </if>
+            <if test="role != null">
+                #{role},
+            </if>
+            <if test="userKey != null">
+                #{userKey},
+            </if>
+        </trim>
+    </insert>
 
     <update id="updateUser" parameterType="com.sweetfun.domain.User">
         update user
@@ -63,6 +126,9 @@
             </if>
             <if test="role != null">
                 role = #{role},
+            </if>
+            <if test="userKey != null">
+                userKey = #{userKey},
             </if>
         </set>
         where id = #{userId}

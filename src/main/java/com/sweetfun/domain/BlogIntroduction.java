@@ -1,6 +1,17 @@
 package com.sweetfun.domain;
 
 public class BlogIntroduction {
+    public BlogIntroduction() {
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getRole() {
         return role;
     }
@@ -19,6 +30,16 @@ public class BlogIntroduction {
     private String icon;
     private Integer type;
     private Integer role;
+    private Integer status;
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;
@@ -92,6 +113,21 @@ public class BlogIntroduction {
         this.type = type;
     }
 
+    public BlogIntroduction(Integer id, String title, String digest, String picture, Integer viewedNum, Integer thumbNum, Integer commentNum, String icon, Integer type, Integer role, Integer status, Integer userId) {
+        this.id = id;
+        this.title = title;
+        this.digest = digest;
+        this.picture = picture;
+        this.viewedNum = viewedNum;
+        this.thumbNum = thumbNum;
+        this.commentNum = commentNum;
+        this.icon = icon;
+        this.type = type;
+        this.role = role;
+        this.status = status;
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "BlogIntroduction{" +
@@ -105,6 +141,8 @@ public class BlogIntroduction {
                 ", icon='" + icon + '\'' +
                 ", type=" + type +
                 ", role=" + role +
+                ", status=" + status +
+                ", userId=" + userId +
                 '}';
     }
 }

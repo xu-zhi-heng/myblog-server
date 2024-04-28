@@ -21,4 +21,14 @@ public class BlogContentServiceImpl implements BlogContentService {
     public List<BlogContent> findAll() {
         return blogContentDao.findAll();
     }
+
+    @Override
+    public void saveBlogContent(BlogContent blogContent) {
+        blogContentDao.saveBlogContent(blogContent);
+    }
+
+    @Override
+    public void updateBlogContent(BlogContent blogContent) {
+        blogContentDao.updateBlogContent(blogContent);
+    }
 }

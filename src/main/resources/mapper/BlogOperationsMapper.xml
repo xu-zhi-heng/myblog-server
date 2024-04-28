@@ -31,4 +31,32 @@
         where id = #{blogId}
     </update>
 
+    <select id="Statistics" resultType="java.util.HashMap">
+        select sum(viewed_num) as viewNum,
+        sum(thumb_num) as thumbNum,
+        sum(comment_num) as commentNum,
+        count(*) as blogNum
+        from myblog.blog_introduction
+    </select>
+
+    <select id="blogNumByType" resultType="java.util.HashMap">
+        SELECT blogType.name, COUNT(intro.id) AS value
+        FROM myblog.blog_introduction AS intro
+        INNER JOIN myblog.blog_type AS blogType
+        ON intro.type = blogType.id
+        GROUP BY intro.type ORDER BY intro.type;
+    </select>
+
+
+    <select id="BlogViewRanking" resultType="java.util.HashMap">
+        select id, title, viewed_num, thumb_num
+        from myblog.blog_introduction
+        order by viewed_num
+    </select>
+
+    <select id="RecentBlogs" resultType="java.util.HashMap">
+        select title as content, create_time as time
+        from myblog.blog_content
+        order by create_time DESC
+    </select>
 </mapper>

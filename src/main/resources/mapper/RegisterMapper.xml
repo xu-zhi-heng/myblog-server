@@ -13,9 +13,10 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"></result>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"></result>
         <result column="role" jdbcType="INTEGER" property="role"></result>
+        <result column="userKey" jdbcType="INTEGER" property="userKey"></result>
     </resultMap>
     <sql id="Base_Column_List">
-        select id,username,password,avator,birthday,location,sex,introduce, role
+        select id,username,password,avatar,birthday,location,sex,introduce,role,userKey
     </sql>
 
     <insert id="Register" parameterType="com.sweetfun.domain.User">
@@ -45,6 +46,9 @@
             <if test="role != null">
                 role,
             </if>
+            <if test="userKey != null">
+                userKey,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="username != null">
@@ -70,6 +74,9 @@
             </if>
             <if test="role != null">
                 #{role},
+            </if>
+            <if test="userKey != null">
+                #{userKey},
             </if>
         </trim>
     </insert>

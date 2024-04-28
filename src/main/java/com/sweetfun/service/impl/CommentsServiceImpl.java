@@ -32,4 +32,19 @@ public class CommentsServiceImpl implements CommentsService {
     public int deleteComment(Integer userId) {
         return commentsDao.deleteComment(userId);
     }
+
+    @Override
+    public List<Object> findAll() {
+        return commentsDao.findAll();
+    }
+
+    @Override
+    public int updateById(Comments comments) {
+        return commentsDao.updateById(comments);
+    }
+
+    @Override
+    public List<Object> findByTime(String createTime, String endTime) {
+        return commentsDao.findByTime(createTime, endTime);
+    }
 }

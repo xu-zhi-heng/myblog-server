@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweetfun.dao.AdminDao">
+    <resultMap id="BaseResultMap" type="com.sweetfun.domain.Admin">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="adminName" jdbcType="VARCHAR" property="adminName"></result>
+        <result column="password" jdbcType="VARCHAR" property="password"></result>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,adminName,password
+    </sql>
+
+    <select id="login" resultMap="BaseResultMap" parameterType="com.sweetfun.domain.Admin">
+        <include refid="Base_Column_List"/>
+        from myblog.admin
+        where adminName = #{adminName}
+        and password = #{password}
+    </select>
+
+</mapper>

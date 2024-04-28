@@ -12,15 +12,16 @@
         <result column="location" jdbcType="VARCHAR" property="location"></result>
         <result column="sex" jdbcType="VARCHAR" property="sex"></result>
         <result column="introduce" jdbcType="VARCHAR" property="introduce"></result>
+        <result column="userKey" jdbcType="INTEGER" property="userKey"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,username,password,avatar,birthday,location,sex,introduce
+        select id,username,password,avatar,birthday,location,sex,introduce,userKey
     </sql>
 
     <select id="Login" resultMap="BaseResultMap">
         <include refid="Base_Column_List"/>
         from myblog.user
-        where username = #{username} and password = #{password}
+        where userKey = #{userKey} and password = #{password}
     </select>
 </mapper>

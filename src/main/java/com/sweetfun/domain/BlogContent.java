@@ -1,10 +1,13 @@
 package com.sweetfun.domain;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 public class BlogContent {
     private Integer id;
     private String content;
     private String categories;
     private String tags;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date create_time;
     private String title;
     private Integer blogIntroductionId;

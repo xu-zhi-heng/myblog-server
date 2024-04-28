@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public boolean updateUser(User user) {
         return userDao.updateUser(user);
     }
+
+    @Override
+    public boolean addUser(User user) {
+        return userDao.addUser(user);
+    }
 }

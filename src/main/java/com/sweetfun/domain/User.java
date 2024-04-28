@@ -8,6 +8,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
 public class User {
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    private String userKey;
     private int userId;
     private String username;
     private String password;
@@ -22,7 +31,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userKey=" + userKey +
+                ", userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
@@ -34,7 +44,11 @@ public class User {
                 '}';
     }
 
-    public User(int userId, String username, String password, String avatar, Date birthday, String location, String sex, String introduce, int role) {
+    public User() {
+    }
+
+    public User(String userKey, int userId, String username, String password, String avatar, Date birthday, String location, String sex, String introduce, int role) {
+        this.userKey = userKey;
         this.userId = userId;
         this.username = username;
         this.password = password;

@@ -43,7 +43,7 @@
         update myblog.blog_type
         <set>
             <if test="name != null">
-                name = #{name}
+                name = #{name},
             </if>
             <if test="icon != null">
                 icon = #{icon}

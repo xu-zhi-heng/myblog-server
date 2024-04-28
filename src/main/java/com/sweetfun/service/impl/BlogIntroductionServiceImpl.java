@@ -14,6 +14,12 @@ public class BlogIntroductionServiceImpl implements BlogIntroductionService {
     public List<BlogIntroduction> findAll() {
         return blogIntroductionDao.findAll();
     }
+
+    @Override
+    public List<BlogIntroduction> findAllByUserId(Integer userId) {
+        return blogIntroductionDao.findAllByUserId(userId);
+    }
+
     @Override
     public List<BlogIntroduction> findByType(Integer type) {
         return blogIntroductionDao.findByType(type);
@@ -22,5 +28,20 @@ public class BlogIntroductionServiceImpl implements BlogIntroductionService {
     @Override
     public BlogIntroduction findById(Integer id) {
         return blogIntroductionDao.findById(id);
+    }
+
+    @Override
+    public void saveBlogIntro(BlogIntroduction blogIntroduction) {
+        blogIntroductionDao.saveBlogIntro(blogIntroduction);
+    }
+
+    @Override
+    public void updateById(BlogIntroduction blogStatus) {
+        blogIntroductionDao.updateById(blogStatus);
+    }
+
+    @Override
+    public List<BlogIntroduction> findByKeyWord(String keyWord) {
+        return blogIntroductionDao.findByKeyWord(keyWord);
     }
 }

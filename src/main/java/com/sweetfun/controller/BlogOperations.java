@@ -1,10 +1,15 @@
 package com.sweetfun.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sweetfun.domain.BlogIntroduction;
 import com.sweetfun.service.BlogOperationsService;
+import com.sweetfun.utils.BackResult;
 import com.sweetfun.utils.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 对博客的一些操作，例如点赞，浏览等等
@@ -45,5 +50,69 @@ public class BlogOperations {
             jsonObject.put(Consts.MSG, e.getMessage());
         }
         return jsonObject;
+    }
+
+    @RequestMapping("/statistics")
+    public Object Statistics() {
+        try {
+            HashMap<String, Integer> statistics = blogOperationsService.Statistics();
+            System.out.println(statistics);
+            if (statistics != null) {
+                return BackResult.result(1, "查询成功", statistics);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
+    @RequestMapping("/blogNumByType")
+    public Object blogNumByType() {
+        try {
+            List<Object> objects = blogOperationsService.blogNumByType();
+            System.out.println(objects);
+            if (objects != null) {
+                return BackResult.result(1, "查询成功", objects);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
+    @RequestMapping("/BlogViewRanking")
+    public Object BlogViewRanking() {
+        try {
+            List<BlogIntroduction> objects = blogOperationsService.BlogViewRanking();
+            System.out.println(objects);
+            if (objects != null) {
+                return BackResult.result(1, "查询成功", objects);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
+
+    @RequestMapping("/recentBlogs")
+    public Object recentBlogs() {
+        try {
+            List<BlogIntroduction> objects = blogOperationsService.RecentBlogs();
+            System.out.println(objects);
+            if (objects != null) {
+                return BackResult.result(1, "查询成功", objects);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return BackResult.result(0, exception.getMessage(), null);
+        }
     }
 }

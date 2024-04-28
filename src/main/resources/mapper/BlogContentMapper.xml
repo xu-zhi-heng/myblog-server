@@ -5,7 +5,7 @@
 <mapper namespace="com.sweetfun.dao.BlogContentDao">
     <resultMap id="BaseResultMap" type="com.sweetfun.domain.BlogContent">
         <id column="id" jdbcType="INTEGER" property="id"></id>
-        <result column="content" jdbcType="VARCHAR" property="content"></result>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"></result>
         <result column="categories" jdbcType="VARCHAR" property="categories"></result>
         <result column="tags" jdbcType="VARCHAR" property="tags"></result>
         <result column="create_time" jdbcType="DATE" property="create_time"></result>
@@ -27,4 +27,65 @@
         <include refid="Base_Column_List"/>
         from myblog.blog_content
     </select>
+
+
+    <insert id="saveBlogContent" parameterType="com.sweetfun.domain.BlogContent"
+            useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into myblog.blog_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                content,
+            </if>
+            <if test="categories != null">
+                categories,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            create_time,
+            <if test="title != null">
+                title,
+            </if>
+            <if test="blogIntroductionId != null">
+                blogIntroduction_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="categories != null">
+                #{categories},
+            </if>
+            <if test="tags != null">
+                #{tags},
+            </if>
+            now(),
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="blogIntroductionId != null">
+                #{blogIntroductionId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBlogContent" parameterType="com.sweetfun.domain.BlogContent">
+        update myblog.blog_content
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="categories != null">
+                categories = #{categories},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+        </set>
+        where blogIntroduction_id = #{blogIntroductionId}
+    </update>
 </mapper>
