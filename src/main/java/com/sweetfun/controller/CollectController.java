@@ -17,7 +17,7 @@ public class CollectController {
     @GetMapping("/findAll")
     public Object getAllCollect() {
         JSONObject jsonObject = null;
-        List<Collect> all = collectService.findAll();
+        List<Object> all = collectService.findAll();
         if (all != null) {
             jsonObject = (JSONObject) BackResult.result(1, "查询成功", all);
         } else {
@@ -39,8 +39,32 @@ public class CollectController {
         return jsonObject;
     }
 
-    @PostMapping("/deleteById")
-    public Object deleteById(@RequestParam int id) {
+    @GetMapping("/findByTime")
+    public Object findByUserId(@RequestParam String time) {
+        JSONObject jsonObject = null;
+        List<Object> all = collectService.findByTime(time);
+        if (all != null) {
+            jsonObject = (JSONObject) BackResult.result(1, "查询成功", all);
+        } else {
+            jsonObject = (JSONObject) BackResult.result(0, "数据为空", null);
+        }
+        return jsonObject;
+    }
+
+    @GetMapping("/findByUserIdAndBlogIntroductionId")
+    public Object findByUserIdAndBlogIntroductionId(@RequestParam int userId, @RequestParam int blogIntroductionId) {
+        JSONObject jsonObject = null;
+        Collect byUserIdAndBlogIntroductionId = collectService.findByUserIdAndBlogIntroductionId(userId, blogIntroductionId);
+        if (byUserIdAndBlogIntroductionId != null) {
+            jsonObject = (JSONObject) BackResult.result(1, "查询成功", byUserIdAndBlogIntroductionId);
+        } else {
+            jsonObject = (JSONObject) BackResult.result(0, "数据为空", null);
+        }
+        return jsonObject;
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public Object deleteById(@PathVariable("id") int id) {
         JSONObject jsonObject = null;
         try {
             collectService.deleteCollect(id);
@@ -55,8 +79,8 @@ public class CollectController {
     public Object addCollect(@RequestBody Collect collect) {
         JSONObject jsonObject = null;
         try {
-            collectService.addCollect(collect);
-            jsonObject = (JSONObject) BackResult.result(1, "添加成功", null);
+            int count = collectService.addCollect(collect);
+            jsonObject = (JSONObject) BackResult.result(1, "添加成功", collect.getId());
         } catch (Exception exception) {
             jsonObject = (JSONObject) BackResult.result(0, exception.getMessage(), null);
         }

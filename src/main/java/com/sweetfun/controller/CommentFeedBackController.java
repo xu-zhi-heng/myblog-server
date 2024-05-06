@@ -73,7 +73,8 @@ public class CommentFeedBackController {
     }
 
     @RequestMapping(value = "/saveFeedBack", method = RequestMethod.POST)
-    public Object saveFeedBack(CommentFeedBacks commentFeedBacks) {
+    public Object saveFeedBack(@RequestBody CommentFeedBacks commentFeedBacks) {
+        System.out.println(commentFeedBacks);
         boolean contains = SensitiveWordHelper.contains(commentFeedBacks.getContent());
         JSONObject jsonObject = new JSONObject();
         try {
@@ -96,4 +97,5 @@ public class CommentFeedBackController {
         }
         return jsonObject;
     }
+
 }

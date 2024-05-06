@@ -16,10 +16,7 @@ public class LoginController {
     private LoginService loginService;
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public Object login(@RequestBody User user) {
-        System.out.println(user);
         JSONObject jsonObject = new JSONObject();
-        System.out.println(user.getPassword());
-        System.out.println(MD5Utils.convertMD5(user.getPassword()));
         user.setPassword(MD5Utils.convertMD5(user.getPassword()));
         User login = loginService.Login(user);
         System.out.println(login);

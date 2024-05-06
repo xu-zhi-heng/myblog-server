@@ -136,5 +136,4 @@ public class UserController {
         userService.updateUser(user);
         return BackResult.result(1, "更新成功", path);
     }
-
 }

@@ -11,17 +11,52 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        select id,user_id,collect_date,collect_date
+        select id,user_id,blogIntroduction_id,collect_date
     </sql>
 
-    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        <include refid="Base_Column_List"/>
-        from myblog.collect
-        where user_id = #{userId}
+    <select id="findByUserId" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+        SELECT myblog.blog_introduction.id,
+               myblog.blog_introduction.title,
+               myblog.blog_introduction.digest,
+               myblog.blog_introduction.picture,
+               myblog.blog_introduction.viewed_num AS viewedNum,
+               myblog.blog_introduction.thumb_num AS thumbNum,
+               myblog.blog_introduction.comment_num AS commentNum,
+               myblog.blog_introduction.icon,
+               myblog.blog_introduction.type,
+               myblog.blog_introduction.role,
+               myblog.blog_introduction.status,
+               myblog.blog_introduction.user_id,
+               myblog.blog_content.create_time,
+               myblog.collect.collect_date,
+               myblog.collect.id AS collectId
+        FROM myblog.collect
+                 LEFT JOIN myblog.blog_introduction
+                           ON myblog.blog_introduction.id = myblog.collect.blogIntroduction_id
+                 LEFT JOIN myblog.blog_content
+                           ON myblog.blog_introduction.id = myblog.blog_content.blogIntroduction_id
+        where myblog.collect.user_id = #{userId};
     </select>
 
-    <select id="findAll" resultMap="BaseResultMap">
-        <include refid="Base_Column_List"/> from myblog.collect
+    <select id="findAll" resultType="java.util.HashMap">
+        select collect.id, collect.user_id, collect.blogIntroduction_id, collect.collect_date as collectDate,
+        user.username, blog_introduction.title
+        from collect
+        left join user on collect.user_id = user.id
+        left join blog_introduction on collect.blogIntroduction_id = blog_introduction.id
+    </select>
+
+    <select id="findByTime" resultType="java.util.HashMap">
+        select collect.id, collect.user_id, collect.blogIntroduction_id, collect.collect_date as collectDate,
+               user.username, blog_introduction.title
+        from collect
+                 left join user on collect.user_id = user.id
+                 left join blog_introduction on collect.blogIntroduction_id = blog_introduction.id
+        where collect.collect_date = #{time}
+    </select>
+
+    <select id="findByUserIdAndBlogIntroductionId" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/> from myblog.collect where user_id = #{userId} and blogIntroduction_id = #{blogIntroductionId}
     </select>
 
     <delete id="deleteCollect" parameterType="java.lang.Integer">
@@ -32,7 +67,7 @@
         select count(*) from myblog.collect
     </select>
 
-    <insert id="addCollect" parameterType="com.sweetfun.domain.Collect">
+    <insert id="addCollect" parameterType="com.sweetfun.domain.Collect" useGeneratedKeys="true" keyProperty="id">
         insert into myblog.collect
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -67,4 +102,6 @@
         </set>
         where id = #{id}
     </update>
+
+
 </mapper>

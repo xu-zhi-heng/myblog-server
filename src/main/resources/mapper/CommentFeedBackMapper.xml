@@ -96,20 +96,18 @@
     <insert id="saveFeedBack" parameterType="com.sweetfun.domain.CommentFeedBacks">
         insert into myblog.comment_feedback
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            comment_content,
+            content,
             user_id,
-            blogIntroduction_id,
+            comment_id,
             create_time,
-            update_time,
             support_num,
             against_num,
             status
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            #{commentContent},
+            #{content},
             #{userId},
-            #{blogIntroductionId},
-            now(),
+            #{commentId},
             now(),
             0,
             0,

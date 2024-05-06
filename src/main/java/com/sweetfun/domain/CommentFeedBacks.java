@@ -18,6 +18,70 @@ public class CommentFeedBacks {
     private Integer supportNum;
     private Integer againstNum;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getSupportNum() {
+        return supportNum;
+    }
+
+    public void setSupportNum(Integer supportNum) {
+        this.supportNum = supportNum;
+    }
+
+    public Integer getAgainstNum() {
+        return againstNum;
+    }
+
+    public void setAgainstNum(Integer againstNum) {
+        this.againstNum = againstNum;
+    }
+
     @Override
     public String toString() {
         return "CommentFeedBacks{" +

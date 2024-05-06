@@ -14,7 +14,7 @@ public class CollectServiceImpl implements CollectService {
     @Autowired
     private CollectDao collectDao;
     @Override
-    public List<Collect> findAll() {
+    public List<Object> findAll() {
         return collectDao.findAll();
     }
 
@@ -24,8 +24,8 @@ public class CollectServiceImpl implements CollectService {
     }
 
     @Override
-    public void addCollect(Collect collect) {
-        collectDao.addCollect(collect);
+    public int addCollect(Collect collect) {
+       return collectDao.addCollect(collect);
     }
 
     @Override
@@ -36,5 +36,15 @@ public class CollectServiceImpl implements CollectService {
     @Override
     public void updateCollect(Collect collect) {
         collectDao.updateCollect(collect);
+    }
+
+    @Override
+    public Collect findByUserIdAndBlogIntroductionId(int userId, int blogIntroductionId) {
+        return collectDao.findByUserIdAndBlogIntroductionId(userId, blogIntroductionId);
+    }
+
+    @Override
+    public List<Object> findByTime(String time) {
+        return collectDao.findByTime(time);
     }
 }
