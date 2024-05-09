@@ -86,7 +86,7 @@ public class BlogOperations {
     @RequestMapping("/BlogViewRanking")
     public Object BlogViewRanking() {
         try {
-            List<BlogIntroduction> objects = blogOperationsService.BlogViewRanking();
+            List<Object> objects = blogOperationsService.BlogViewRanking();
             System.out.println(objects);
             if (objects != null) {
                 return BackResult.result(1, "查询成功", objects);
@@ -103,7 +103,24 @@ public class BlogOperations {
     @RequestMapping("/recentBlogs")
     public Object recentBlogs() {
         try {
-            List<BlogIntroduction> objects = blogOperationsService.RecentBlogs();
+            List<Object> objects = blogOperationsService.RecentBlogs();
+            System.out.println(objects);
+            if (objects != null) {
+                return BackResult.result(1, "查询成功", objects);
+            } else {
+                return BackResult.result(1, "没有数据", null);
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return BackResult.result(0, exception.getMessage(), null);
+        }
+    }
+
+    // 获取最近7天每天系统博客的数量
+    @RequestMapping("/getBlogNumberByDay")
+    public Object getBlogNumberByDay() {
+        try {
+            List<Object> objects = blogOperationsService.getBlogNumberByDay();
             System.out.println(objects);
             if (objects != null) {
                 return BackResult.result(1, "查询成功", objects);

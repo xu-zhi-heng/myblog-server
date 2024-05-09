@@ -35,9 +35,9 @@
 
 
     <select id="findAllByCommentId" resultType="java.util.HashMap" parameterType="java.lang.Integer">
-        select f.id, f.content, f.create_time, f.support_num, f.against_num, f.status, f.user_id, f.comment_id,
-        u.username,
-        c.blogIntroduction_id,
+        select f.id, f.content, f.create_time as createTime, f.support_num as supportNum, f.against_num as againstNum, f.status, f.user_id as userId, f.comment_id as commentId,
+        u.username,u.avatar as userAvator,
+        c.blogIntroduction_id as blogIntroductionId,
         i.title
         from myblog.comment_feedback as f
         left join myblog.user as u
@@ -114,5 +114,11 @@
             #{status}
         </trim>
     </insert>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from myblog.comment_feedback
+        where id = #{id}
+    </delete>
 
 </mapper>

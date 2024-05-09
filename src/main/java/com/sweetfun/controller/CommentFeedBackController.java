@@ -98,4 +98,22 @@ public class CommentFeedBackController {
         return jsonObject;
     }
 
+
+    @RequestMapping(value = "/deleteFeedBack/{id}", method = RequestMethod.DELETE)
+    public Object deleteFeedBack(@PathVariable("id") String id) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            int i = commentFeedBackService.deleteById(Integer.parseInt(id));
+            if(i > 0) {
+                jsonObject.put(Consts.CODE, 1);
+                jsonObject.put(Consts.MSG, "删除成功");
+            }
+        } catch (Exception e) {
+            jsonObject.put(Consts.CODE, 0);
+            jsonObject.put(Consts.MSG, e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }

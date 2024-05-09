@@ -12,6 +12,7 @@ public interface BlogOperationsDao {
     public int viewNumAdd(Integer blogId);
     public HashMap<String, Integer> Statistics();
     public List<Object> blogNumByType();
-    public List<BlogIntroduction> BlogViewRanking();
-    public List<BlogIntroduction> RecentBlogs();
+    public List<Object> BlogViewRanking();
+    public List<Object> RecentBlogs();
+    public List<Object> getBlogNumberByDay();
 }

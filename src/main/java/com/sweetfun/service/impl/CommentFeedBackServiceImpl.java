@@ -36,4 +36,9 @@ public class CommentFeedBackServiceImpl implements CommentFeedBackService {
     public int saveFeedBack(CommentFeedBacks commentFeedBacks) {
         return feedBackDao.saveFeedBack(commentFeedBacks);
     }
+
+    @Override
+    public int deleteById(Integer id) {
+        return feedBackDao.deleteById(id);
+    }
 }

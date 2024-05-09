@@ -142,13 +142,4 @@ public class CommentsController {
             return BackResult.result(0, exception.getMessage(), null);
         }
     }
-
-    @GetMapping("/findByCommentByUserId")
-    public Object findByCommentByUserId(@RequestParam Integer userId) {
-        try {
-
-        } catch (Exception exception) {
-            return BackResult.result(0, exception.getMessage(), null);
-        }
-    }
 }

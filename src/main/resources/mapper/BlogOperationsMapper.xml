@@ -59,4 +59,32 @@
         from myblog.blog_content
         order by create_time DESC
     </select>
+
+
+    <select id="getBlogNumberByDay" resultType="java.util.HashMap">
+        select d.date, IFNULL(T.count,0) count from
+            (
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) + 0 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 1 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 2 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 3 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 4 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 5 DAY) as date
+            UNION ALL
+            select date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 6 DAY) as date
+            )  d
+            left join
+            (
+            select create_time, count(id) as count
+            from blog_content
+            group by create_time
+            ) T
+        on T.create_time = d.date
+        GROUP BY d.date;
+    </select>
 </mapper>

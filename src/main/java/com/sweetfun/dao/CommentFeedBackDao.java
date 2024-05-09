@@ -12,4 +12,5 @@ public interface CommentFeedBackDao {
     public int updateById(CommentFeedBacks feedBacks);
     public List<Object> findByTime(String createTime, String endTime);
     public int saveFeedBack(CommentFeedBacks commentFeedBacks);
+    public int deleteById(Integer id);
 }

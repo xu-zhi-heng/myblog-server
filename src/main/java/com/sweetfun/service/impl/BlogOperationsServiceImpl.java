@@ -34,12 +34,17 @@ public class BlogOperationsServiceImpl implements BlogOperationsService {
     }
 
     @Override
-    public List<BlogIntroduction> BlogViewRanking() {
+    public List<Object> BlogViewRanking() {
         return blogOperationsDao.BlogViewRanking();
     }
 
     @Override
-    public List<BlogIntroduction> RecentBlogs() {
+    public List<Object> RecentBlogs() {
         return blogOperationsDao.RecentBlogs();
+    }
+
+    @Override
+    public List<Object> getBlogNumberByDay() {
+        return blogOperationsDao.getBlogNumberByDay();
     }
 }
